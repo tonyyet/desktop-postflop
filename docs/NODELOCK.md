@@ -207,8 +207,28 @@ round-trip), and window rendering checked by screenshot (thousands of distinct c
 
 ## 10. Shipped artifact
 
-* `Nodelock Solver.exe` — production build of this branch (v0.2.7 + node locking), standalone
-  (assets embedded, no Vite dev server needed; requires the WebView2 runtime, which is present on
-  Windows 10/11 by default).
-* Desktop shortcut `Nodelock Solver` → that executable.
-* Build date / commit: 2026-10-03, see the git log of the `nodelock` branch.
+* Executable: `src-tauri/target/release/Nodelock Solver.exe` (4.35 MB) —
+  production build (v0.2.7 + node locking), **standalone**: the frontend is embedded through the
+  `custom-protocol` feature (verified byte-wise: the exe contains the built asset names
+  `index-e9543a35.js` / `index-a5aa5ce4.css`), so it runs without Vite or `npm run dev`.
+  Requires the WebView2 runtime (preinstalled on Windows 10/11).
+* Desktop shortcut: `Nodelock Solver.lnk` → that executable (working dir = the release dir,
+  icon = `src-tauri/icons/icon.ico`).
+* How it was built (2026-10-03, from a clean `dist/`):
+
+  ```bash
+  npm run build                                   # vue-tsc && vite build  -> dist/
+  cd src-tauri && set RUSTUP_TOOLCHAIN=nightly&& cargo build --release
+  ```
+
+  Plain `cargo build --release` is enough because `[features] default = ["custom-protocol"]`;
+  `cargo` emits `desktop-postflop.exe`, which is copied to `Nodelock Solver.exe`.
+  (`npx tauri build` does the same and additionally produces the msi/nsis installers —
+  it needs to download the WiX/NSIS toolsets, so it is not part of the default flow here.)
+* Labelling: `tauri.conf.json` → `package.productName = "Nodelock Solver"` and
+  `tauri.windows[0].title = "Nodelock Solver"` (commit `c747c0d`); revert both to
+  "Desktop Postflop" before merging upstream.
+* Verification after shipping: launched the exe from an idle machine (no Vite/Node process) —
+  window title `Nodelock Solver`, 1365x848, and OCR of the window returned the full start screen
+  (`Desktop Postflop v0.2.7`, `Solver` / `Results`, OOP/IP range grids, `Tree Configuration`),
+  i.e. the embedded UI really renders.
