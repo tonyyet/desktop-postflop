@@ -236,6 +236,21 @@ pub fn game_exploitability(
     pool.install(|| compute_exploitability(&*game))
 }
 
+/// Exploitability of the *delivered* strategy profile, ignoring the locking
+/// restrictions: every locked node is free to deviate, so this is the real
+/// exploitability of the profile the user is looking at.  Unlike
+/// `game_exploitability` (which freezes locked nodes and therefore converges
+/// to 0 by construction) this value does not have to approach 0.
+#[tauri::command(async)]
+pub fn game_exploitability_unrestricted(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    pool_state: tauri::State<Mutex<ThreadPool>>,
+) -> f32 {
+    let game = game_state.lock().unwrap();
+    let pool = pool_state.lock().unwrap();
+    pool.install(|| compute_exploitability_unrestricted(&*game))
+}
+
 #[tauri::command(async)]
 pub fn game_finalize(
     game_state: tauri::State<Mutex<PostFlopGame>>,
@@ -249,6 +264,187 @@ pub fn game_finalize(
 pub fn game_apply_history(game_state: tauri::State<Mutex<PostFlopGame>>, history: Vec<usize>) {
     let mut game = game_state.lock().unwrap();
     game.apply_history(&history);
+}
+
+/// Returns `Some(message)` when the engine is in a state where locking is not
+/// allowed, i.e., memory has not been allocated yet or the game is already
+/// solved. Used to convert the engine's `panic!`s into graceful messages.
+#[inline]
+fn locking_allowed(game: &PostFlopGame) -> Option<String> {
+    if game.is_memory_allocated().is_none() {
+        return Some("game is not ready for node locking (memory not allocated)".to_string());
+    }
+    if game.is_solved() {
+        return Some("game is already solved; start a new solve before changing locks".to_string());
+    }
+    None
+}
+
+/// Locks the strategy of the node addressed by `history`.
+///
+/// `strategy` must have length `#(actions) * #(private hands)` at that node.
+/// The probability of the `i`-th action with the `j`-th private hand is the
+/// `i * #(hands) + j`-th element; a private hand whose entries are all `<= 0.0`
+/// is left unlocked (soft lock), and positive entries are normalized to sum 1.
+#[tauri::command]
+pub fn game_lock_strategy(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    history: Vec<usize>,
+    strategy: Vec<f32>,
+) -> Option<String> {
+    let mut game = game_state.lock().unwrap();
+    if let Some(message) = locking_allowed(&game) {
+        return Some(message);
+    }
+
+    let prev = game.history().to_vec();
+    game.apply_history(&history);
+
+    let result = if game.is_terminal_node() || game.is_chance_node() {
+        Some("cannot lock a terminal or chance node".to_string())
+    } else {
+        let expected = game.expected_strategy_len();
+        if strategy.len() != expected {
+            Some(format!(
+                "invalid strategy length: got {}, expected {}",
+                strategy.len(),
+                expected
+            ))
+        } else {
+            game.lock_current_strategy(&strategy);
+            None
+        }
+    };
+
+    game.apply_history(&prev);
+    result
+}
+
+/// Locks the strategy of the node addressed by `history` with a locking
+/// `weight` (Phase 3 soft lock / RRN).
+///
+/// `weight == 1.0` is a hard lock.  With `0.0 < weight < 1.0` the node is
+/// pinned on every iteration to `weight * target + (1 - weight) * current`,
+/// i.e. the target is approached gradually (relaxed regret network).
+#[tauri::command]
+pub fn game_lock_strategy_with_weight(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    history: Vec<usize>,
+    strategy: Vec<f32>,
+    weight: f32,
+) -> Option<String> {
+    let mut game = game_state.lock().unwrap();
+    if let Some(message) = locking_allowed(&game) {
+        return Some(message);
+    }
+
+    let prev = game.history().to_vec();
+    game.apply_history(&history);
+
+    let result = if game.is_terminal_node() || game.is_chance_node() {
+        Some("cannot lock a terminal or chance node".to_string())
+    } else if strategy.len() != game.expected_strategy_len() {
+        Some(format!(
+            "invalid strategy length: got {}, expected {}",
+            strategy.len(),
+            game.expected_strategy_len()
+        ))
+    } else if !(0.0..=1.0).contains(&weight) {
+        Some(format!("invalid locking weight: {}", weight))
+    } else {
+        game.lock_current_strategy_with_weight(&strategy, weight);
+        None
+    };
+
+    game.apply_history(&prev);
+    result
+}
+
+/// Returns the locking weight stored at the node addressed by `history`, or
+/// `None` when the node is not locked.
+#[tauri::command]
+pub fn game_locking_weight(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    history: Vec<usize>,
+) -> Option<f32> {
+    let mut game = game_state.lock().unwrap();
+    if game.is_memory_allocated().is_none() || game.is_solved() {
+        return None;
+    }
+
+    let prev = game.history().to_vec();
+    game.apply_history(&history);
+
+    let result = if game.is_terminal_node() || game.is_chance_node() {
+        None
+    } else {
+        game.current_locking_weight()
+    };
+
+    game.apply_history(&prev);
+    result
+}
+
+/// Unlocks the strategy of the node addressed by `history`.
+#[tauri::command]
+pub fn game_unlock_strategy(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    history: Vec<usize>,
+) -> Option<String> {
+    let mut game = game_state.lock().unwrap();
+    if let Some(message) = locking_allowed(&game) {
+        return Some(message);
+    }
+
+    let prev = game.history().to_vec();
+    game.apply_history(&history);
+
+    let result = if game.is_terminal_node() || game.is_chance_node() {
+        Some("cannot unlock a terminal or chance node".to_string())
+    } else {
+        game.unlock_current_strategy();
+        None
+    };
+
+    game.apply_history(&prev);
+    result
+}
+
+/// Returns the locking strategy currently stored at the node addressed by
+/// `history`, or `None` if the node is not locked. Unlocked private hands are
+/// reported as `-1.0` for every action.
+#[tauri::command]
+pub fn game_current_locking_strategy(
+    game_state: tauri::State<Mutex<PostFlopGame>>,
+    history: Vec<usize>,
+) -> Option<Vec<f32>> {
+    let mut game = game_state.lock().unwrap();
+    if game.is_memory_allocated().is_none() || game.is_solved() {
+        return None;
+    }
+
+    let prev = game.history().to_vec();
+    game.apply_history(&history);
+
+    let result = if game.is_terminal_node() || game.is_chance_node() {
+        None
+    } else {
+        game.current_locking_strategy()
+    };
+
+    game.apply_history(&prev);
+    result
+}
+
+/// Removes every locking strategy from every node.
+#[tauri::command]
+pub fn game_clear_locks(game_state: tauri::State<Mutex<PostFlopGame>>) -> Option<String> {
+    let mut game = game_state.lock().unwrap();
+    if let Some(message) = locking_allowed(&game) {
+        return Some(message);
+    }
+    game.clear_locking_strategy();
+    None
 }
 
 #[tauri::command]

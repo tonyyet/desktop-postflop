@@ -31,6 +31,8 @@
       @trigger-update="onUpdateSpot"
     />
 
+    <NodeLockEditor :spot="selectedSpot" :results="results" :cards="cards" />
+
     <ResultMiddle
       :display-mode="displayMode"
       :chance-mode="chanceMode"
@@ -157,6 +159,7 @@ import ResultTable from "./ResultTable.vue";
 import ResultCompare from "./ResultCompare.vue";
 import ResultGraphs from "./ResultGraphs.vue";
 import ResultChance from "./ResultChance.vue";
+import NodeLockEditor from "./NodeLockEditor.vue";
 
 const store = useStore();
 

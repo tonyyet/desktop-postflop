@@ -273,6 +273,54 @@ export const gameApplyHistory = async (history: number[]) => {
   await invoke("game_apply_history", { history });
 };
 
+/* Node Locking */
+
+export const gameLockStrategy = async (
+  history: number[],
+  strategy: number[]
+): Promise<string | null> => {
+  return await invoke("game_lock_strategy", { history, strategy });
+};
+
+export const gameUnlockStrategy = async (
+  history: number[]
+): Promise<string | null> => {
+  return await invoke("game_unlock_strategy", { history });
+};
+
+export const gameCurrentLockingStrategy = async (
+  history: number[]
+): Promise<number[] | null> => {
+  return await invoke("game_current_locking_strategy", { history });
+};
+
+export const gameClearLocks = async (): Promise<string | null> => {
+  return await invoke("game_clear_locks");
+};
+
+export const gameLockStrategyWithWeight = async (
+  history: number[],
+  strategy: number[],
+  weight: number
+): Promise<string | null> => {
+  return await invoke("game_lock_strategy_with_weight", {
+    history,
+    strategy,
+    weight,
+  });
+};
+
+export const gameLockingWeight = async (
+  history: number[]
+): Promise<number | null> => {
+  return await invoke("game_locking_weight", { history });
+};
+
+/** Exploitability of the delivered profile, ignoring the lock restrictions. */
+export const gameExploitabilityUnrestricted = async (): Promise<number> => {
+  return await invoke("game_exploitability_unrestricted");
+};
+
 export const gameTotalBetAmount = async (
   append: number[]
 ): Promise<number[]> => {

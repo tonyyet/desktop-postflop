@@ -241,7 +241,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, toRefs, ref, watch } from "vue";
-import { useSavedConfigStore } from "../store";
+import { useSavedConfigStore, useLockStore } from "../store";
 import { cardText, average, colorString } from "../utils";
 import * as invokes from "../invokes";
 
@@ -517,6 +517,8 @@ const selectSpot = async (
 
   // apply history
   await invokes.gameApplyHistory(history);
+  // remember the displayed node so the node-lock editor can address it
+  useLockStore().setCurrentHistory(history);
 
   // obtain results
   results = await invokes.gameGetResults();

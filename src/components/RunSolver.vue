@@ -308,21 +308,25 @@
       <br />
       {{ exploitabilityText }}
       <br />
+      {{ exploitabilityUnrestrictedText }}
+      <br />
       {{ timeText }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import {
   useStore,
   useConfigStore,
   useTmpConfigStore,
   useSavedConfigStore,
+  useLockStore,
   saveConfigTmp,
   saveConfig,
 } from "../store";
+import type { NodeLock } from "../store";
 import {
   MAX_AMOUNT,
   convertBetString,
@@ -452,6 +456,13 @@ const store = useStore();
 const config = useConfigStore();
 const tmpConfig = useTmpConfigStore();
 const savedConfig = useSavedConfigStore();
+const lockStore = useLockStore();
+
+/** Deep copy of a lock (the strategy array is flat: numActions * numHands). */
+const cloneLock = (lock: NodeLock): NodeLock => ({
+  ...lock,
+  strategy: [...lock.strategy],
+});
 
 const numThreads = ref(navigator.hardwareConcurrency || 1);
 const targetExploitability = ref(0.3);
@@ -473,6 +484,7 @@ const terminateFlag = ref(false);
 const pauseFlag = ref(false);
 const currentIteration = ref(-1);
 const exploitability = ref(Number.POSITIVE_INFINITY);
+const exploitabilityUnrestricted = ref(Number.NaN);
 const elapsedTimeMs = ref(-1);
 
 let startTime = 0;
@@ -531,7 +543,8 @@ const exploitabilityText = computed(() => {
     const valueText = exploitability.value.toFixed(2);
     const percent = (exploitability.value * 100) / config.startingPot;
     const percentText = `${percent.toFixed(2)}%`;
-    return `Exploitability: ${valueText} (${percentText})`;
+    const suffix = lockStore.hasLocks ? " (within locks)" : "";
+    return `Exploitability${suffix}: ${valueText} (${percentText})`;
   }
 });
 
@@ -617,11 +630,82 @@ const buildTree = async () => {
   isTreeBuilt.value = true;
   treeStatus.value = "Successfully built tree";
 
+  // Rebuilding the tree invalidates every lock, because node addresses
+  // (action histories) may no longer refer to the same nodes.
+  lockStore.clear();
+
   store.isSolverRunning = false;
   store.isSolverPaused = false;
   store.isSolverFinished = false;
   store.isSolverError = false;
 };
+
+// The node-lock editor asks for a re-solve: locks may only be applied after
+// `game_allocate_memory` and before solving, so the entire run must be redone.
+const consumeResolveRequest = async () => {
+  if (!store.nodelockResolveRequested) return;
+  store.nodelockResolveRequested = false;
+
+  // Rebuilding the tree clears the locks (the histories could point at other
+  // nodes), but a "re-solve with locks" request means they must survive the
+  // rebuild: the engine only accepts locks after `game_allocate_memory`.
+  const locks = lockStore.locks.map(cloneLock);
+
+  await buildTree();
+  lockStore.locks = locks;
+
+  await runSolver();
+};
+
+watch(() => store.nodelockResolveRequested, consumeResolveRequest);
+onMounted(consumeResolveRequest);
+
+// The sweep re-runs the whole pipeline once per parameter value: every step
+// needs a fresh tree (locks may only be applied between `game_allocate_memory`
+// and solving) and a fresh solve.
+const consumeSweepRequest = async () => {
+  const steps = lockStore.sweepRequest;
+  if (!steps) return;
+  lockStore.sweepResults = [];
+
+  for (let i = 0; i < steps.length; ++i) {
+    if (lockStore.sweepCancelled) break;
+
+    // `buildTree` clears the locks, so they are re-applied afterwards: the
+    // engine only accepts locks between `game_allocate_memory` and solving.
+    await buildTree();
+    lockStore.locks = steps[i].locks.map(cloneLock);
+    await runSolver();
+
+    try {
+      const exploitabilityValue = Math.max(await invokes.gameExploitability(), 0);
+      const unrestrictedValue = Math.max(
+        await invokes.gameExploitabilityUnrestricted(),
+        0
+      );
+      const results = await invokes.gameGetResults();
+      lockStore.sweepResults.push({
+        label: steps[i].label,
+        exploitability: exploitabilityValue,
+        unrestricted: unrestrictedValue,
+        ev: [
+          weightedEv(results.ev[0], results.normalizer[0]),
+          weightedEv(results.ev[1], results.normalizer[1]),
+        ],
+        elapsedMs: elapsedTimeMs.value,
+      });
+    } catch {
+      // skip a point that cannot be measured instead of aborting the sweep
+    }
+
+    lockStore.sweepProgress = (i + 1) / steps.length;
+    if (terminateFlag.value) break;
+  }
+
+  lockStore.finishSweep();
+};
+
+watch(() => lockStore.sweepRunning, consumeSweepRequest);
 
 const runSolver = async () => {
   terminateFlag.value = false;
@@ -648,6 +732,28 @@ const runSolver = async () => {
     }
   }
 
+  // Re-apply every stored lock right after memory is allocated. Locking is
+  // only allowed while memory is allocated and the game is not solved yet.
+  for (const lock of lockStore.locks) {
+    // Phase 3: a soft lock is applied with its locking weight, so the node is
+    // pinned to `weight * target + (1 - weight) * current` instead of a hard lock.
+    const weight = lock.isSoft ? Math.min(Math.max(lock.weight ?? 1, 0), 1) : 1;
+    const errorString =
+      weight >= 1
+        ? await invokes.gameLockStrategy(lock.history, lock.strategy)
+        : await invokes.gameLockStrategyWithWeight(
+            lock.history,
+            lock.strategy,
+            weight
+          );
+    if (errorString) {
+      solverErrorText.value = `Error: could not lock node ${lock.label}: ${errorString}`;
+      store.isSolverRunning = false;
+      store.isSolverError = true;
+      return;
+    }
+  }
+
   currentIteration.value = 0;
   exploitability.value = Math.max(await invokes.gameExploitability(), 0);
   exploitabilityUpdated = true;
@@ -666,6 +772,15 @@ const resumeSolver = async () => {
 
   const target = (config.startingPot * targetExploitability.value) / 100;
 
+  // Stopping criterion. `gameExploitability` (`compute_exploitability`) is
+  // *lock aware*: with node locks the solver converges to a restricted
+  // equilibrium (the locked frequencies are held fixed while the free player
+  // best-responds) and the returned value is computed under exactly that
+  // restriction, so it converges to zero with locks in place and the target
+  // remains a valid criterion. The whole-tree value that stays large under
+  // locks is the *unrestricted* metric (`gameExploitabilityUnrestricted`),
+  // which is reported in the UI but must never be used to stop the solve.
+  // `Terminate` and the iteration cap stay as the manual / hard guards.
   while (
     !terminateFlag.value &&
     currentIteration.value < maxIterations.value &&
@@ -705,5 +820,50 @@ const resumeSolver = async () => {
 
   const end = performance.now();
   elapsedTimeMs.value += end - startTime;
+
+  // Phase 2 metrics. `exploitability` is computed *within* the locks (it is the
+  // stopping criterion and converges to 0 by construction). The unrestricted
+  // value is the real exploitability of the delivered profile: the locked nodes
+  // are free to deviate there, so it is the number that describes how
+  // exploitable the profile the user is looking at actually is.
+  exploitabilityUnrestricted.value = Math.max(
+    await invokes.gameExploitabilityUnrestricted(),
+    0
+  );
+
+  try {
+    const results = await invokes.gameGetResults();
+    lockStore.recordRun({
+      exploitability: Math.max(exploitability.value, 0),
+      unrestricted: exploitabilityUnrestricted.value,
+      ev: [
+        weightedEv(results.ev[0], results.normalizer[0]),
+        weightedEv(results.ev[1], results.normalizer[1]),
+      ],
+      hasLocks: lockStore.hasLocks,
+      elapsedMs: elapsedTimeMs.value,
+    });
+  } catch {
+    // the comparison panel is optional; a failed snapshot must not break the run
+  }
 };
+
+/** Reach-weighted average over the private hands, matching ResultCompare. */
+const weightedEv = (ev: number[], normalizer: number[]) => {
+  let numerator = 0;
+  let denominator = 0;
+  for (let i = 0; i < ev.length; ++i) {
+    const w = normalizer?.[i] ?? 0;
+    numerator += (ev[i] ?? 0) * w;
+    denominator += w;
+  }
+  return denominator > 0 ? numerator / denominator : Number.NaN;
+};
+
+const exploitabilityUnrestrictedText = computed(() => {
+  if (!Number.isFinite(exploitabilityUnrestricted.value)) return "";
+  const valueText = exploitabilityUnrestricted.value.toFixed(2);
+  const percent = (exploitabilityUnrestricted.value * 100) / config.startingPot;
+  return `Exploitability (unrestricted, real): ${valueText} (${percent.toFixed(3)}%)`;
+});
 </script>

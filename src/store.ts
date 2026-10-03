@@ -80,9 +80,134 @@ export const saveConfig = () => {
   });
 };
 
+/* Node Locking (Phase 1/2/3) */
+
+export type NodeLock = {
+  /** Action indices from the root, e.g. [] (root) or [0, 2]. */
+  history: number[];
+  /** Flattened strategy in engine layout: [action * numHands + hand]. */
+  strategy: number[];
+  numActions: number;
+  numHands: number;
+  /** Human-readable node path, for display only. */
+  label: string;
+  /** Phase 3: soft lock / RRN — treat as a target instead of a hard lock. */
+  isSoft: boolean;
+  /** Phase 3: locking weight, 1.0 = hard lock, (0,1) = relaxed target. */
+  weight: number;
+  /** Phase 2 frequency targets (per action); null = derive from averaged strategy. */
+  targetFreqs: number[] | null;
+};
+
+export const lockKey = (history: number[]) => history.join(".");
+
+/** Metrics of one finished solve, used for the baseline / locked comparison. */
+/** One point of a sensitivity sweep (one full re-solve per point). */
+export type SweepPoint = {
+  /** Swept parameter value (lock weight, or node frequency in percent). */
+  label: number;
+  exploitability: number;
+  unrestricted: number;
+  ev: [number, number];
+  elapsedMs: number;
+};
+
+/** One step of a sweep: the complete lock set that is applied for that step. */
+export type SweepStep = {
+  label: number;
+  locks: NodeLock[];
+};
+
+export type RunMetrics = {
+  /** Exploitability within the locks (stopping criterion). */
+  exploitability: number;
+  /** Real exploitability of the delivered profile (locks ignored). */
+  unrestricted: number;
+  /** Reach-weighted root EV per player. */
+  ev: [number, number];
+  hasLocks: boolean;
+  elapsedMs: number;
+};
+
+export const useLockStore = defineStore("locks", {
+  state: () => ({
+    locks: [] as NodeLock[],
+    softLockEnabled: false,
+    /** Weight applied to new soft locks (Phase 3). */
+    softLockWeight: 0.5,
+    /** History of the node currently displayed in the results view (set by ResultNav). */
+    currentHistory: [] as number[],
+    /** Metrics of the last solve without locks (Phase 2 comparison). */
+    baseline: null as RunMetrics | null,
+    /** Metrics of the last solve with locks (Phase 2 comparison). */
+    lastLocked: null as RunMetrics | null,
+    /** Sensitivity sweep (Phase 3): the steps to run, if any. */
+    sweepRequest: null as SweepStep[] | null,
+    sweepRunning: false,
+    sweepCancelled: false,
+    /** Fraction of the sweep that is done (0..1). */
+    sweepProgress: 0,
+    sweepResults: [] as SweepPoint[],
+  }),
+
+  getters: {
+    hasLocks: (state) => state.locks.length > 0,
+  },
+
+  actions: {
+    setCurrentHistory(history: number[]) {
+      this.currentHistory = [...history];
+    },
+
+    upsert(lock: NodeLock) {
+      const key = lockKey(lock.history);
+      const index = this.locks.findIndex((l) => lockKey(l.history) === key);
+      if (index >= 0) {
+        this.locks[index] = lock;
+      } else {
+        this.locks.push(lock);
+      }
+    },
+
+    remove(history: number[]) {
+      const key = lockKey(history);
+      this.locks = this.locks.filter((l) => lockKey(l.history) !== key);
+    },
+
+    clear() {
+      this.locks = [];
+    },
+
+    startSweep(steps: SweepStep[]) {
+      this.sweepRequest = steps;
+      this.sweepResults = [];
+      this.sweepProgress = 0;
+      this.sweepCancelled = false;
+      this.sweepRunning = true;
+    },
+
+    finishSweep() {
+      this.sweepRequest = null;
+      this.sweepRunning = false;
+      this.sweepProgress = 1;
+    },
+
+    /** Records the metrics of a finished solve for the comparison panel. */
+    recordRun(metrics: RunMetrics) {
+      if (metrics.hasLocks) {
+        this.lastLocked = metrics;
+      } else {
+        this.baseline = metrics;
+      }
+    },
+  },
+});
+
 export const useStore = defineStore("app", {
   state: () => ({
     navView: "solver" as NavView,
+    /** Set by the node-lock editor to ask RunSolver to re-init + re-solve with locks. */
+    nodelockResolveRequested: false,
     sideView: "oop-range" as SideView,
     headers: {
       about: ["About"],
