@@ -1,25 +1,25 @@
 <template>
-  <div class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs">
+  <div class="rounded border border-slate-300 bg-white text-xs">
     <!-- Header -->
     <div
       class="flex items-center gap-2 px-3 py-2 cursor-pointer select-none"
       @click="isOpen = !isOpen"
     >
       <span class="font-semibold">Node Lock</span>
-      <span class="text-slate-500">
+      <span class="text-slate-600">
         {{
           headerLabel
         }}
       </span>
-      <span v-if="lockStore.locks.length" class="text-emerald-600">
+      <span v-if="lockStore.locks.length" class="text-emerald-700">
         ({{ lockStore.locks.length }} locked)
       </span>
       <span class="ml-auto">{{ isOpen ? "▲" : "▼" }}</span>
     </div>
 
-    <div v-if="isOpen" class="px-3 pb-3 border-t border-slate-200 dark:border-slate-700">
+    <div v-if="isOpen" class="px-3 pb-3 border-t border-slate-200">
       <!-- Not editable -->
-      <div v-if="!editable" class="py-2 text-slate-500">
+      <div v-if="!editable" class="py-2 text-slate-600">
         {{ notEditableReason }}
       </div>
 
@@ -27,25 +27,25 @@
         <!-- Quick actions -->
         <div class="flex flex-wrap items-center gap-2 py-2">
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="lockAllToCurrent"
           >
             Lock all to current strategy
           </button>
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="lockAllPure"
           >
             Lock all pure ({{ pureActionName }})
           </button>
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="zeroAction"
           >
             Zero action ({{ pureActionName }})
           </button>
           <button
-            class="px-2 py-1 rounded bg-rose-100 dark:bg-rose-900 hover:bg-rose-200"
+            class="px-2 py-1 rounded bg-rose-100 hover:bg-rose-200"
             @click="unlockNode"
           >
             Unlock node
@@ -78,7 +78,7 @@
         <!-- Node-level frequency targets (Phase 3): the shares are distributed
              pro-rata over the hands with iterative proportional fitting. -->
         <div class="flex flex-wrap items-center gap-2 pb-2">
-          <span class="text-slate-500">Node freq target (%):</span>
+          <span class="text-slate-600">Node freq target (%):</span>
           <label v-for="(action, i) of actions" :key="'freq' + i" class="flex items-center gap-1">
             {{ action }}
             <input
@@ -86,18 +86,18 @@
               min="0"
               max="100"
               step="1"
-              class="w-14 px-1 py-0.5 text-right border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+              class="w-14 px-1 py-0.5 text-right border border-slate-300 rounded bg-transparent"
               v-model.number="nodeFreq[i]"
             />
           </label>
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="applyNodeFreqs"
           >
             Distribute
           </button>
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="refreshNodeFreq"
           >
             Refresh
@@ -105,9 +105,9 @@
         </div>
 
         <!-- Table -->
-        <div class="max-h-72 overflow-auto border border-slate-200 dark:border-slate-700 rounded">
+        <div class="max-h-72 overflow-auto border border-slate-200 rounded">
           <table class="w-full border-collapse">
-            <thead class="sticky top-0 bg-slate-100 dark:bg-slate-700">
+            <thead class="sticky top-0 bg-slate-100">
               <tr>
                 <th class="px-1 py-1 text-left">Hand</th>
                 <th class="px-1 py-1 text-right">W</th>
@@ -122,10 +122,10 @@
               <tr
                 v-for="row of visibleRows"
                 :key="row.index"
-                :class="row.locked ? 'bg-emerald-50 dark:bg-emerald-950' : ''"
+                :class="row.locked ? 'bg-emerald-50' : ''"
               >
                 <td class="px-1 py-0.5 font-mono">{{ row.label }}</td>
-                <td class="px-1 py-0.5 text-right text-slate-500">
+                <td class="px-1 py-0.5 text-right text-slate-600">
                   {{ row.weight.toFixed(2) }}
                 </td>
                 <td class="px-1 py-0.5 text-center">
@@ -138,11 +138,11 @@
                     min="0"
                     max="100"
                     step="1"
-                    class="w-14 px-1 py-0.5 text-right border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                    class="w-14 px-1 py-0.5 text-right border border-slate-300 rounded bg-transparent"
                     v-model.number="row.freq[i]"
                     @change="persist"
                   />
-                  <span v-else class="text-slate-400">
+                  <span v-else class="text-slate-500">
                     {{ (row.freq[i] * 100).toFixed(0) }}
                   </span>
                 </td>
@@ -157,19 +157,19 @@
         <!-- Footer -->
         <div class="flex flex-wrap items-center gap-2 pt-2">
           <button
-            class="px-3 py-1 rounded bg-sky-600 text-white hover:bg-sky-700"
+            class="px-3 py-1 rounded bg-sky-700 text-white hover:bg-sky-800"
             :disabled="isApplying"
             @click="applyAndResolve"
           >
             {{ isApplying ? "Applying…" : "Apply locks & re-solve" }}
           </button>
           <button
-            class="px-2 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
+            class="px-2 py-1 rounded bg-slate-200 hover:bg-slate-300"
             @click="clearAllLocks"
           >
             Clear all locks
           </button>
-          <span class="text-slate-500">
+          <span class="text-slate-600">
             Locked: {{ lockedRowCount }} hand(s) · the engine pins every locked
             hand; a soft lock blends it with the weight above
           </span>
@@ -178,16 +178,16 @@
         <!-- Phase 2: what the adjustment costs -->
         <div
           v-if="baseline || lastLocked"
-          class="mt-2 rounded border border-slate-200 dark:border-slate-700 p-2 space-y-0.5"
+          class="mt-2 rounded border border-slate-200 p-2 space-y-0.5"
         >
           <div class="font-semibold">Locked vs baseline</div>
-          <div v-if="baseline" class="text-slate-500">
+          <div v-if="baseline" class="text-slate-600">
             Baseline (no locks): EV OOP {{ evText(baseline.ev[0]) }} / IP
             {{ evText(baseline.ev[1]) }} · exploitability
             {{ evText(baseline.exploitability) }} (real
             {{ evText(baseline.unrestricted) }})
           </div>
-          <div v-else class="text-slate-500">
+          <div v-else class="text-slate-600">
             No baseline yet — solve once without locks to measure the cost of the
             adjustment.
           </div>
@@ -205,14 +205,14 @@
         </div>
 
         <!-- Phase 3: sensitivity sweep — one full re-solve per parameter value -->
-        <div class="mt-2 rounded border border-slate-200 dark:border-slate-700 p-2 space-y-1">
+        <div class="mt-2 rounded border border-slate-200 p-2 space-y-1">
           <div class="font-semibold">Sensitivity sweep</div>
           <div class="flex flex-wrap items-center gap-2">
             <label class="flex items-center gap-1">
               parameter
               <select
                 v-model="sweepMode"
-                class="px-1 py-0.5 border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                class="px-1 py-0.5 border border-slate-300 rounded bg-transparent"
               >
                 <option value="weight">soft-lock weight p</option>
                 <option value="freq">node freq of one action</option>
@@ -222,7 +222,7 @@
               action
               <select
                 v-model.number="sweepAction"
-                class="px-1 py-0.5 border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                class="px-1 py-0.5 border border-slate-300 rounded bg-transparent"
               >
                 <option v-for="(action, i) of actions" :key="'sw' + i" :value="i">
                   {{ action }}
@@ -234,7 +234,7 @@
               <input
                 type="number"
                 step="0.05"
-                class="w-16 px-1 py-0.5 text-right border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                class="w-16 px-1 py-0.5 text-right border border-slate-300 rounded bg-transparent"
                 v-model.number="sweepFrom"
               />
             </label>
@@ -243,7 +243,7 @@
               <input
                 type="number"
                 step="0.05"
-                class="w-16 px-1 py-0.5 text-right border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                class="w-16 px-1 py-0.5 text-right border border-slate-300 rounded bg-transparent"
                 v-model.number="sweepTo"
               />
             </label>
@@ -253,12 +253,12 @@
                 type="number"
                 min="2"
                 max="21"
-                class="w-14 px-1 py-0.5 text-right border border-slate-300 dark:border-slate-600 rounded bg-transparent"
+                class="w-14 px-1 py-0.5 text-right border border-slate-300 rounded bg-transparent"
                 v-model.number="sweepPoints"
               />
             </label>
             <button
-              class="px-2 py-1 rounded bg-sky-600 text-white hover:bg-sky-700"
+              class="px-2 py-1 rounded bg-sky-700 text-white hover:bg-sky-800"
               :disabled="lockStore.sweepRunning || !lockedRowCount"
               @click="runSweep"
             >
@@ -266,19 +266,19 @@
             </button>
             <button
               v-if="lockStore.sweepRunning"
-              class="px-2 py-1 rounded bg-rose-100 dark:bg-rose-900 hover:bg-rose-200"
+              class="px-2 py-1 rounded bg-rose-100 hover:bg-rose-200"
               @click="lockStore.sweepCancelled = true"
             >
               Cancel
             </button>
-            <span v-if="lockStore.sweepRunning" class="text-slate-500">
+            <span v-if="lockStore.sweepRunning" class="text-slate-600">
               {{ Math.round(lockStore.sweepProgress * 100) }}%
             </span>
-            <span v-if="sweepMessage" class="text-rose-500">{{ sweepMessage }}</span>
+            <span v-if="sweepMessage" class="text-rose-700">{{ sweepMessage }}</span>
           </div>
           <div v-if="lockStore.sweepResults.length" class="max-h-56 overflow-auto">
             <table class="w-full border-collapse">
-              <thead class="sticky top-0 bg-slate-100 dark:bg-slate-700">
+              <thead class="sticky top-0 bg-slate-100">
                 <tr>
                   <th class="px-1 py-1 text-right">{{ sweepParameterName }}</th>
                   <th class="px-1 py-1 text-right">exploitability</th>
@@ -309,7 +309,7 @@
                 </tr>
               </tbody>
             </table>
-            <div v-if="breakEvenText" class="pt-1 text-slate-500">{{ breakEvenText }}</div>
+            <div v-if="breakEvenText" class="pt-1 text-slate-600">{{ breakEvenText }}</div>
           </div>
         </div>
       </template>
@@ -480,7 +480,7 @@ const rowSum = (row: Row) => row.freq.reduce((a, b) => a + (b > 0 ? b : 0), 0);
 const sumClass = (row: Row) => {
   const sum = rowSum(row);
   if (!row.locked) return "text-slate-300";
-  return Math.abs(sum - 1) > 1e-6 ? "text-rose-500 font-semibold" : "text-emerald-600";
+  return Math.abs(sum - 1) > 1e-6 ? "text-rose-700 font-semibold" : "text-emerald-700";
 };
 
 const lockedRowCount = computed(() => draft.value?.rows.filter((r) => r.locked && rowSum(r) > 0).length ?? 0);

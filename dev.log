@@ -1,0 +1,554 @@
+     Running BeforeDevCommand (`npm run dev`)
+
+> desktop-postflop@0.2.7 dev
+> vite
+
+
+  [32m[1mVITE[22m v4.4.9[39m  [2mready in [0m[1m345[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+        Info Watching C:\Users\Tony\GenericAgent\temp\desktop-postflop\src-tauri for changes...
+[1m[92m   Compiling[0m cfg-if v1.0.0
+
+[1m[92m   Compiling[0m ppv-lite86 v0.2.17
+
+[1m[92m   Compiling[0m siphasher v0.3.11
+
+[1m[92m   Compiling[0m scopeguard v1.2.0
+
+[1m[92m   Compiling[0m itoa v1.0.9
+
+[1m[92m   Compiling[0m memchr v2.6.3
+
+[1m[92m   Compiling[0m ryu v1.0.15
+
+[1m[92m   Compiling[0m once_cell v1.18.0
+
+[1m[92m   Compiling[0m fnv v1.0.7
+
+[1m[92m   Compiling[0m smallvec v1.11.1
+
+[1m[92m   Compiling[0m windows_x86_64_msvc v0.48.5
+
+[1m[92m   Compiling[0m byteorder v1.4.3
+
+[1m[92m   Compiling[0m log v0.4.20
+
+[1m[92m   Compiling[0m serde v1.0.188
+
+[1m[92m   Compiling[0m thiserror v1.0.49
+
+[1m[92m   Compiling[0m windows_x86_64_msvc v0.39.0
+
+[1m[96m    Building[0m [=>                        ] 32/339: scopegu…                                                            [1m[92m   Compiling[0m getrandom v0.2.10
+
+[1m[92m   Compiling[0m windows-targets v0.48.5
+
+[1m[92m   Compiling[0m getrandom v0.1.16
+
+[1m[96m    Building[0m [=>                        ] 35/339: scopegu…                                                            [1m[92m   Compiling[0m phf_shared v0.10.0
+
+[1m[96m    Building[0m [=>                        ] 36/339: scopegu…                                                            [1m[92m   Compiling[0m phf_shared v0.8.0
+
+[1m[96m    Building[0m [=>                        ] 37/339: scopegu…                                                            [1m[92m   Compiling[0m lock_api v0.4.10
+
+[1m[96m    Building[0m [=>                        ] 38/339: lock_ap…                                                            [1m[92m   Compiling[0m new_debug_unreachable v1.0.4
+
+[1m[96m    Building[0m [==>                       ] 40/339: lock_ap…                                                            [1m[92m   Compiling[0m parking_lot_core v0.9.8
+
+[1m[96m    Building[0m [==>                       ] 41/339: lock_ap…                                                            [1m[92m   Compiling[0m rand_core v0.5.1
+
+[1m[96m    Building[0m [==>                       ] 42/339: lock_ap…                                                            [1m[92m   Compiling[0m bitflags v1.3.2
+
+[1m[96m    Building[0m [==>                       ] 43/339: lock_ap…                                                            [1m[92m   Compiling[0m regex-syntax v0.7.5
+
+[1m[96m    Building[0m [==>                       ] 44/339: lock_ap…                                                            [1m[92m   Compiling[0m rand_core v0.6.4
+
+[1m[96m    Building[0m [==>                       ] 45/339: lock_ap…                                                            [1m[92m   Compiling[0m precomputed-hash v0.1.1
+
+[1m[96m    Building[0m [==>                       ] 46/339: lock_ap…                                                            [1m[92m   Compiling[0m mac v0.1.1
+
+[1m[92m   Compiling[0m tinyvec_macros v0.1.1
+
+[1m[96m    Building[0m [==>                       ] 51/339: lock_ap…                                                            [1m[92m   Compiling[0m darling_core v0.20.3
+
+[1m[96m    Building[0m [==>                       ] 52/339: lock_ap…                                                            [1m[92m   Compiling[0m utf-8 v0.7.6
+
+[1m[96m    Building[0m [===>                      ] 57/339: lock_ap…                                                            [1m[92m   Compiling[0m tinyvec v1.6.0
+
+[1m[96m    Building[0m [===>                      ] 58/339: lock_ap…                                                            [1m[92m   Compiling[0m futf v0.1.5
+
+[1m[96m    Building[0m [===>                      ] 59/339: lock_ap…                                                            [1m[92m   Compiling[0m dtoa v1.0.9
+
+[1m[96m    Building[0m [===>                      ] 60/339: lock_ap…                                                            [1m[92m   Compiling[0m percent-encoding v2.3.0
+
+[1m[92m   Compiling[0m matches v0.1.10
+
+[1m[96m    Building[0m [====>                     ] 70/339: lock_ap…                                                            [1m[92m   Compiling[0m alloc-no-stdlib v2.0.4
+
+[1m[92m   Compiling[0m nodrop v0.1.14
+
+[1m[96m    Building[0m [====>                     ] 73/339: lock_ap…                                                            [1m[92m   Compiling[0m rand_chacha v0.3.1
+
+[1m[96m    Building[0m [====>                     ] 74/339: utf-8, …                                                            [1m[92m   Compiling[0m rand_pcg v0.2.1
+
+[1m[96m    Building[0m [====>                     ] 75/339: utf-8, …                                                            [1m[92m   Compiling[0m rand_chacha v0.2.2
+
+[1m[96m    Building[0m [====>                     ] 76/339: utf-8, …                                                            [1m[92m   Compiling[0m parking_lot v0.12.1
+
+[1m[92m   Compiling[0m aho-corasick v1.1.1
+
+[1m[92m   Compiling[0m dtoa-short v0.3.4
+
+[1m[96m    Building[0m [=====>                    ] 79/339: dtoa-sh…                                                            [1m[92m   Compiling[0m tendril v0.4.3
+
+[1m[96m    Building[0m [=====>                    ] 80/339: dtoa-sh…                                                            [1m[92m   Compiling[0m unicode-bidi v0.3.13
+
+[1m[96m    Building[0m [=====>                    ] 81/339: dtoa-sh…                                                            [1m[92m   Compiling[0m itoa v0.4.8
+
+[1m[96m    Building[0m [=====>                    ] 82/339: dtoa-sh…                                                            [1m[92m   Compiling[0m stable_deref_trait v1.2.0
+
+[1m[96m    Building[0m [=====>                    ] 83/339: dtoa-sh…                                                            [1m[92m   Compiling[0m alloc-stdlib v0.2.2
+
+[1m[96m    Building[0m [=====>                    ] 84/339: dtoa-sh…                                                            [1m[92m   Compiling[0m rand v0.8.5
+
+[1m[96m    Building[0m [=====>                    ] 85/339: dtoa-sh…                                                            [1m[92m   Compiling[0m rand v0.7.3
+
+[1m[96m    Building[0m [=====>                    ] 86/339: tendril…                                                            [1m[92m   Compiling[0m servo_arc v0.1.1
+
+[1m[96m    Building[0m [=====>                    ] 87/339: tendril…                                                            [1m[92m   Compiling[0m form_urlencoded v1.2.0
+
+[1m[96m    Building[0m [=====>                    ] 88/339: tendril…                                                            [1m[92m   Compiling[0m libc v0.2.148
+
+[1m[96m    Building[0m [======>                   ] 93/339: libc, t…                                                            [1m[92m   Compiling[0m winapi v0.3.9
+
+[1m[96m    Building[0m [======>                   ] 94/339: libc, t…                                                            [1m[92m   Compiling[0m uuid v1.4.1
+
+[1m[92m   Compiling[0m fxhash v0.2.1
+
+[1m[96m    Building[0m [======>                   ] 97/339: libc, t…                                                            [1m[92m   Compiling[0m thin-slice v0.1.1
+
+[1m[96m    Building[0m [======>                   ] 98/339: libc, t…                                                            [1m[92m   Compiling[0m hashbrown v0.12.3
+
+[1m[96m    Building[0m [======>                  ] 100/339: libc, t…                                                            [1m[92m   Compiling[0m crossbeam-utils v0.8.16
+
+[1m[96m    Building[0m [======>                  ] 102/339: libc, t…                                                            [1m[92m   Compiling[0m brotli-decompressor v2.5.0
+
+[1m[92m   Compiling[0m dunce v1.0.4
+
+[1m[96m    Building[0m [======>                  ] 104/339: brotli-…                                                            [1m[92m   Compiling[0m cfb v0.7.3
+
+[1m[96m    Building[0m [======>                  ] 105/339: brotli-…                                                            [1m[92m   Compiling[0m unicode-normalization v0.1.22
+
+[1m[96m    Building[0m [======>                  ] 106/339: brotli-…                                                            [1m[92m   Compiling[0m glob v0.3.1
+
+[1m[96m    Building[0m [=======>                 ] 110/339: brotli-…                                                            [1m[92m   Compiling[0m winapi-util v0.1.6
+
+[1m[96m    Building[0m [=======>                 ] 116/339: brotli-…                                                            [1m[92m   Compiling[0m adler v1.0.2
+
+[1m[96m    Building[0m [=======>                 ] 119/339: brotli-…                                                            [1m[92m   Compiling[0m phf_generator v0.10.0
+
+[1m[96m    Building[0m [=======>                 ] 120/339: brotli-…                                                            [1m[92m   Compiling[0m phf_generator v0.8.0
+
+[1m[96m    Building[0m [=======>                 ] 121/339: brotli-…                                                            [1m[92m   Compiling[0m indexmap v1.9.3
+
+[1m[96m    Building[0m [=======>                 ] 122/339: brotli-…                                                            [1m[92m   Compiling[0m string_cache_codegen v0.5.2
+
+[1m[96m    Building[0m [========>                ] 123/339: brotli-…                                                            [1m[92m   Compiling[0m phf_codegen v0.10.0
+
+[1m[92m   Compiling[0m phf_codegen v0.8.0
+
+[1m[96m    Building[0m [========>                ] 125/339: phf_cod…                                                            [1m[92m   Compiling[0m same-file v1.0.6
+
+[1m[96m    Building[0m [========>                ] 131/339: phf_cod…                                                            [1m[92m   Compiling[0m phf_macros v0.8.0
+
+[1m[96m    Building[0m [========>                ] 132/339: phf_cod…                                                            [1m[92m   Compiling[0m phf_macros v0.10.0
+
+[1m[96m    Building[0m [========>                ] 133/339: phf_cod…                                                            [1m[92m   Compiling[0m selectors v0.22.0
+
+[1m[96m    Building[0m [========>                ] 134/339: phf_mac…                                                            [1m[92m   Compiling[0m idna v0.4.0
+
+[1m[96m    Building[0m [========>                ] 135/339: phf_mac…                                                            [1m[92m   Compiling[0m infer v0.12.0
+
+[1m[96m    Building[0m [=========>               ] 136/339: phf_mac…                                                            [1m[92m   Compiling[0m windows v0.39.0
+
+[1m[96m    Building[0m [=========>               ] 142/339: phf_mac…                                                            [1m[92m   Compiling[0m num-traits v0.2.16
+
+[1m[96m    Building[0m [==========>              ] 151/339: phf_mac…                                                            [1m[92m   Compiling[0m brotli v3.4.0
+
+[1m[96m    Building[0m [==========>              ] 152/339: phf_mac…                                                            [1m[92m   Compiling[0m markup5ever v0.11.0
+
+[1m[96m    Building[0m [==========>              ] 153/339: phf_mac…                                                            [1m[92m   Compiling[0m regex-automata v0.3.9
+
+[1m[96m    Building[0m [==========>              ] 154/339: phf_mac…[1m[96m    Building[0m [==========>              ] 155/339: phf_mac…                                                            [1m[92m   Compiling[0m walkdir v2.4.0
+
+[1m[96m    Building[0m [==========>              ] 156/339: phf_mac…                                                            [1m[92m   Compiling[0m crc32fast v1.3.2
+
+[1m[96m    Building[0m [==========>              ] 157/339: phf_mac…                                                            [1m[92m   Compiling[0m serde_json v1.0.107
+
+[1m[96m    Building[0m [==========>              ] 158/339: brotli-…                                                            [1m[92m   Compiling[0m phf v0.8.0
+
+[1m[96m    Building[0m [==========>              ] 159/339: brotli-…[1m[96m    Building[0m [==========>              ] 160/339: brotli-…                                                            [1m[92m   Compiling[0m phf v0.10.1
+
+[1m[96m    Building[0m [==========>              ] 161/339: brotli-…                                                            [1m[92m   Compiling[0m string_cache v0.8.7
+
+[1m[96m    Building[0m [==========>              ] 162/339: brotli-…                                                            [1m[92m   Compiling[0m darling_macro v0.20.3
+
+[1m[96m    Building[0m [===========>             ] 163/339: brotli-…                                                            [1m[92m   Compiling[0m url v2.4.1
+
+[1m[96m    Building[0m [===========>             ] 164/339: brotli-…[1m[96m    Building[0m [===========>             ] 165/339: string_…                                                            [1m[92m   Compiling[0m cssparser v0.27.2
+
+[1m[96m    Building[0m [===========>             ] 166/339: string_…                                                            [1m[92m   Compiling[0m toml_datetime v0.6.3
+
+[1m[96m    Building[0m [===========>             ] 167/339: string_…                                                            [1m[92m   Compiling[0m serde_spanned v0.6.3
+
+[1m[96m    Building[0m [===========>             ] 168/339: string_…[1m[96m    Building[0m [===========>             ] 169/339: string_…                                                            [1m[92m   Compiling[0m num-integer v0.1.45
+
+[1m[96m    Building[0m [===========>             ] 175/339: serde_j…                                                            [1m[92m   Compiling[0m toml_edit v0.19.15
+
+[1m[96m    Building[0m [===========>             ] 176/339: serde_j…[1m[96m    Building[0m [============>            ] 177/339: serde_j…                                                            [1m[92m   Compiling[0m vswhom-sys v0.1.2
+
+[1m[96m    Building[0m [============>            ] 178/339: vswhom-…                                                            [1m[92m   Compiling[0m darling v0.20.3
+
+[1m[96m    Building[0m [============>            ] 179/339: vswhom-…                                                            [1m[92m   Compiling[0m treediff v4.0.2
+
+[1m[96m    Building[0m [============>            ] 180/339: serde_j…[1m[96m    Building[0m [============>            ] 181/339: serde_j…                                                            [1m[92m   Compiling[0m serde_with_macros v3.3.0
+
+[1m[96m    Building[0m [============>            ] 182/339: serde_w…                                                            [1m[92m   Compiling[0m json-patch v1.1.0
+
+[1m[96m    Building[0m [============>            ] 183/339: serde_w…                                                            [1m[92m   Compiling[0m memoffset v0.9.0
+
+[1m[96m    Building[0m [============>            ] 184/339: serde_w…                                                            [1m[92m   Compiling[0m miniz_oxide v0.7.1
+
+[1m[96m    Building[0m [============>            ] 185/339: serde_w…                                                            [1m[92m   Compiling[0m windows-sys v0.48.0
+
+[1m[96m    Building[0m [============>            ] 186/339: serde_w…                                                            [1m[92m   Compiling[0m bytes v1.5.0
+
+[1m[96m    Building[0m [============>            ] 187/339: serde_w…                                                            [1m[92m   Compiling[0m html5ever v0.26.0
+
+[1m[96m    Building[0m [============>            ] 188/339: serde_w…[1m[96m    Building[0m [============>            ] 189/339: serde_w…                                                            [1m[92m   Compiling[0m raw-window-handle v0.5.2
+
+[1m[96m    Building[0m [=============>           ] 190/339: serde_w…                                                            [1m[92m   Compiling[0m regex v1.9.6
+
+[1m[96m    Building[0m [=============>           ] 191/339: serde_w…[1m[96m    Building[0m [=============>           ] 192/339: same-fi…[1m[96m    Building[0m [=============>           ] 197/339: same-fi…                                                            [1m[92m   Compiling[0m flate2 v1.0.27
+
+[1m[96m    Building[0m [=============>           ] 198/339: same-fi…                                                            [1m[92m   Compiling[0m crossbeam-epoch v0.9.15
+
+[1m[96m    Building[0m [=============>           ] 199/339: serde_w…[1m[96m    Building[0m [=============>           ] 200/339: serde_w…                                                            [1m[92m   Compiling[0m num-rational v0.4.1
+
+[1m[96m    Building[0m [=============>           ] 201/339: serde_w…                                                            [1m[92m   Compiling[0m serde_with v3.3.0
+
+[1m[96m    Building[0m [=============>           ] 202/339: windows…                                                            [1m[92m   Compiling[0m vswhom v0.1.0
+
+[1m[92m   Compiling[0m bytemuck v1.14.0
+
+[1m[96m    Building[0m [==============>          ] 211/339: bytemuc…                                                            [1m[92m   Compiling[0m kuchikiki v0.8.2
+
+[1m[96m    Building[0m [==============>          ] 212/339: bytemuc…                                                            [1m[92m   Compiling[0m toml v0.7.8
+
+[1m[96m    Building[0m [==============>          ] 213/339: bytemuc…                                                            [1m[92m   Compiling[0m lazy_static v1.4.0
+
+[1m[96m    Building[0m [==============>          ] 214/339: bytemuc…                                                            [1m[92m   Compiling[0m color_quant v1.1.0
+
+[1m[96m    Building[0m [===============>         ] 217/339: kuchiki…                                                            [1m[92m   Compiling[0m png v0.17.10
+
+[1m[92m   Compiling[0m crossbeam-deque v0.8.3
+
+[1m[96m    Building[0m [===============>         ] 221/339: kuchiki…[1m[96m    Building[0m [===============>         ] 222/339: kuchiki…                                                            [1m[92m   Compiling[0m semver v1.0.19
+
+[1m[96m    Building[0m [===============>         ] 226/339: kuchiki…                                                            [1m[92m   Compiling[0m anyhow v1.0.75
+
+[1m[96m    Building[0m [===============>         ] 227/339: kuchiki…                                                            [1m[92m   Compiling[0m image v0.24.7
+
+[1m[96m    Building[0m [===============>         ] 228/339: kuchiki…                                                            [1m[92m   Compiling[0m http v0.2.9
+
+[1m[96m    Building[0m [===============>         ] 229/339: http, k…                                                            [1m[92m   Compiling[0m crossbeam-channel v0.5.8
+
+[1m[96m    Building[0m [===============>         ] 230/339: http, k…                                                            [1m[92m   Compiling[0m dirs-sys-next v0.1.2
+
+[1m[96m    Building[0m [================>        ] 231/339: http, k…[1m[96m    Building[0m [================>        ] 232/339: http, k…                                                            [1m[92m   Compiling[0m instant v0.1.12
+
+[1m[96m    Building[0m [================>        ] 233/339: instant…                                                            [1m[92m   Compiling[0m unicode-segmentation v1.10.1
+
+[1m[96m    Building[0m [================>        ] 238/339: instant…                                                            [1m[92m   Compiling[0m sha2 v0.10.8
+
+[1m[92m   Compiling[0m dirs-next v2.0.0
+
+[1m[96m    Building[0m [================>        ] 243/339: http, w…                                                            [1m[92m   Compiling[0m ico v0.3.0
+
+[1m[96m    Building[0m [================>        ] 244/339: http, w…                                                            [1m[92m   Compiling[0m cargo_toml v0.15.3
+
+[1m[96m    Building[0m [=================>       ] 249/339: http, w…                                                            [1m[92m   Compiling[0m rayon-core v1.12.0
+
+[1m[96m    Building[0m [=================>       ] 250/339: http, w…                                                            [1m[92m   Compiling[0m windows_x86_64_msvc v0.37.0
+
+[1m[96m    Building[0m [=================>       ] 251/339: http, w…                                                            [1m[92m   Compiling[0m windows_x86_64_msvc v0.42.2
+
+[1m[96m    Building[0m [=================>       ] 252/339: http, w…[1m[96m    Building[0m [=================>       ] 253/339: rand, h…                                                            [1m[92m   Compiling[0m bstr v1.6.2
+
+[1m[96m    Building[0m [=================>       ] 254/339: rand, h…                                                            [1m[92m   Compiling[0m either v1.9.0
+
+[1m[92m   Compiling[0m pin-project-lite v0.2.13
+
+[1m[96m    Building[0m [==================>      ] 260/339: rand, h…                                                            [1m[92m   Compiling[0m tauri-utils v1.5.0
+
+[1m[96m    Building[0m [==================>      ] 261/339: rand, h…                                                            [1m[92m   Compiling[0m http-range v0.1.5
+
+[1m[96m    Building[0m [==================>      ] 264/339: rand, h…                                                            [1m[92m   Compiling[0m filetime v0.2.22
+
+[1m[96m    Building[0m [==================>      ] 267/339: rand, h…                                                            [1m[92m   Compiling[0m windows-sys v0.42.0
+
+[1m[96m    Building[0m [==================>      ] 271/339: rand, h…                                                            [1m[92m   Compiling[0m rayon v1.8.0
+
+[1m[96m    Building[0m [===================>     ] 272/339: rand, r…                                                            [1m[92m   Compiling[0m windows v0.37.0
+
+[1m[96m    Building[0m [===================>     ] 273/339: rand, r…                                                            [1m[92m   Compiling[0m globset v0.4.13
+
+[1m[96m    Building[0m [===================>     ] 274/339: rand, r…                                                            [1m[92m   Compiling[0m slab v0.4.9
+
+[1m[96m    Building[0m [===================>     ] 275/339: rand, r…                                                            [1m[92m   Compiling[0m futures-core v0.3.28
+
+[1m[96m    Building[0m [===================>     ] 276/339: rand, r…                                                            [1m[92m   Compiling[0m futures-task v0.3.28
+
+[1m[96m    Building[0m [===================>     ] 277/339: rand, r…[1m[96m    Building[0m [===================>     ] 278/339: rand, r…                                                            [1m[92m   Compiling[0m tauri v1.5.0
+
+[1m[96m    Building[0m [===================>     ] 279/339: rand, r…[1m[96m    Building[0m [===================>     ] 280/339: rayon, …                                                            [1m[92m   Compiling[0m thread_local v1.1.7
+
+[1m[96m    Building[0m [===================>     ] 281/339: rayon, …                                                            [1m[92m   Compiling[0m num_cpus v1.16.0
+
+[1m[96m    Building[0m [===================>     ] 284/339: rayon, …                                                            [1m[92m   Compiling[0m winreg v0.51.0
+
+[1m[96m    Building[0m [====================>    ] 285/339: rayon, …                                                            [1m[92m   Compiling[0m fastrand v2.0.1
+
+[1m[96m    Building[0m [====================>    ] 286/339: rayon, …                                                            [1m[92m   Compiling[0m pin-utils v0.1.0
+
+[1m[96m    Building[0m [====================>    ] 287/339: pin-uti…                                                            [1m[92m   Compiling[0m ignore v0.4.20
+
+[1m[96m    Building[0m [====================>    ] 288/339: pin-uti…                                                            [1m[92m   Compiling[0m tokio v1.32.0
+
+[1m[96m    Building[0m [====================>    ] 289/339: pin-uti…[1m[96m    Building[0m [====================>    ] 290/339: pin-uti…                                                            [1m[92m   Compiling[0m futures-util v0.3.28
+
+[1m[96m    Building[0m [====================>    ] 291/339: ignore,…                                                            [1m[92m   Compiling[0m open v3.2.0
+
+[1m[96m    Building[0m [====================>    ] 292/339: ignore,…                                                            [1m[92m   Compiling[0m webview2-com-sys v0.19.0
+
+[1m[96m    Building[0m [====================>    ] 293/339: webview…                                                            [1m[92m   Compiling[0m embed-resource v2.3.0
+
+[1m[96m    Building[0m [====================>    ] 294/339: webview…                                                            [1m[92m   Compiling[0m tempfile v3.8.0
+
+[1m[96m    Building[0m [====================>    ] 295/339: webview…[1m[96m    Building[0m [====================>    ] 296/339: webview…                                                            [1m[92m   Compiling[0m serialize-to-javascript v0.1.1
+
+[1m[96m    Building[0m [====================>    ] 297/339: webview…                                                            [1m[92m   Compiling[0m tauri-winres v0.1.1
+
+[1m[96m    Building[0m [====================>    ] 298/339: webview…[1m[96m    Building[0m [=====================>   ] 299/339: webview…                                                            [1m[92m   Compiling[0m tar v0.4.40
+
+[1m[96m    Building[0m [=====================>   ] 300/339: webview…                                                            [1m[92m   Compiling[0m bincode v2.0.0-rc.3
+
+[1m[96m    Building[0m [=====================>   ] 301/339: webview…                                                            [1m[92m   Compiling[0m ntapi v0.4.1
+
+[1m[96m    Building[0m [=====================>   ] 302/339: webview…                                                            [1m[92m   Compiling[0m encoding_rs v0.8.33
+
+[1m[96m    Building[0m [=====================>   ] 303/339: webview…                                                            [1m[92m   Compiling[0m state v0.5.3
+
+[1m[96m    Building[0m [=====================>   ] 305/339: webview…[1m[96m    Building[0m [=====================>   ] 306/339: webview…[1m[96m    Building[0m [=====================>   ] 307/339: webview…[1m[96m    Building[0m [=====================>   ] 308/339: webview…[1m[96m    Building[0m [=====================>   ] 309/339: ignore,…[1m[96m    Building[0m [=====================>   ] 310/339: ignore,…                                                            [1m[92m   Compiling[0m postflop-solver v0.1.0 (C:\Users\Tony\Projects\postflop-solver)
+
+[1m[96m    Building[0m [=====================>   ] 310/339: ignore,…[1m[96m    Building[0m [=====================>   ] 311/339: ignore,…[1m[96m    Building[0m [======================>  ] 312/339: ignore,…[1m[96m    Building[0m [======================>  ] 313/339: encodin…[1m[96m    Building[0m [======================>  ] 314/339: encodin…                                                            [1m[92m   Compiling[0m tauri-build v1.5.0
+
+[1m[92m   Compiling[0m tauri-codegen v1.4.1
+
+[1m[96m    Building[0m [======================>  ] 314/339: tauri-b…                                                            [1m[92m   Compiling[0m sysinfo v0.29.10
+
+[1m[96m    Building[0m [======================>  ] 314/339: tauri-b…[1m[96m    Building[0m [======================>  ] 315/339: tauri-b…[1m[96m    Building[0m [======================>  ] 316/339: tauri-b…[1m[96m    Building[0m [======================>  ] 317/339: tauri-b…[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+  [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\game\base.rs:24:13
+
+   [1m[96m|[0m
+
+[1m[96m24[0m [1m[96m|[0m     fn root(&self) -> MutexGuardLike<Self::Node> {
+
+   [1m[96m|[0m             [1m[93m^^^^^[0m     [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+   [1m[96m|[0m             [1m[93m|[0m
+
+   [1m[96m|[0m             [1m[93mthe lifetime is elided here[0m
+
+   [1m[96m|[0m
+
+   [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+   [1m[96m= [0m[1m[97mnote[0m: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+   [1m[96m|[0m
+
+[1m[96m24[0m [1m[96m| [0m    fn root(&self) -> MutexGuardLike<[92m'_, [0mSelf::Node> {
+
+   [1m[96m|[0m                                      [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+    [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\game\interpreter.rs:1091:13
+
+     [1m[96m|[0m
+
+[1m[96m1091[0m [1m[96m|[0m     fn node(&self) -> MutexGuardLike<PostFlopNode> {
+
+     [1m[96m|[0m             [1m[93m^^^^^[0m     [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+     [1m[96m|[0m             [1m[93m|[0m
+
+     [1m[96m|[0m             [1m[93mthe lifetime is elided here[0m
+
+     [1m[96m|[0m
+
+     [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+     [1m[96m|[0m
+
+[1m[96m1091[0m [1m[96m| [0m    fn node(&self) -> MutexGuardLike<[92m'_, [0mPostFlopNode> {
+
+     [1m[96m|[0m                                      [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+  [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\game\node.rs:38:13
+
+   [1m[96m|[0m
+
+[1m[96m38[0m [1m[96m|[0m     fn play(&self, action: usize) -> MutexGuardLike<Self> {
+
+   [1m[96m|[0m             [1m[93m^^^^^[0m                    [1m[93m^^^^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+   [1m[96m|[0m             [1m[93m|[0m
+
+   [1m[96m|[0m             [1m[93mthe lifetime is elided here[0m
+
+   [1m[96m|[0m
+
+   [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+   [1m[96m|[0m
+
+[1m[96m38[0m [1m[96m| [0m    fn play(&self, action: usize) -> MutexGuardLike<[92m'_, [0mSelf> {
+
+   [1m[96m|[0m                                                     [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+  [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\interface.rs:13:13
+
+   [1m[96m|[0m
+
+[1m[96m13[0m [1m[96m|[0m     fn root(&self) -> MutexGuardLike<Self::Node>;
+
+   [1m[96m|[0m             [1m[93m^^^^^[0m     [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+   [1m[96m|[0m             [1m[93m|[0m
+
+   [1m[96m|[0m             [1m[93mthe lifetime is elided here[0m
+
+   [1m[96m|[0m
+
+   [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+   [1m[96m|[0m
+
+[1m[96m13[0m [1m[96m| [0m    fn root(&self) -> MutexGuardLike<[92m'_, [0mSelf::Node>;
+
+   [1m[96m|[0m                                      [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+   [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\interface.rs:112:13
+
+    [1m[96m|[0m
+
+[1m[96m112[0m [1m[96m|[0m     fn play(&self, action: usize) -> MutexGuardLike<Self>;
+
+    [1m[96m|[0m             [1m[93m^^^^^[0m                    [1m[93m^^^^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+    [1m[96m|[0m             [1m[93m|[0m
+
+    [1m[96m|[0m             [1m[93mthe lifetime is elided here[0m
+
+    [1m[96m|[0m
+
+    [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+    [1m[96m|[0m
+
+[1m[96m112[0m [1m[96m| [0m    fn play(&self, action: usize) -> MutexGuardLike<[92m'_, [0mSelf>;
+
+    [1m[96m|[0m                                                     [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…                                                            [1m[93mwarning[0m[1m[97m: hiding a lifetime that's elided elsewhere is confusing[0m
+
+  [1m[96m--> [0mC:\Users\Tony\Projects\postflop-solver\src\mutex_like.rs:66:17
+
+   [1m[96m|[0m
+
+[1m[96m66[0m [1m[96m|[0m     pub fn lock(&self) -> MutexGuardLike<T> {
+
+   [1m[96m|[0m                 [1m[93m^^^^^[0m     [1m[93m^^^^^^^^^^^^^^^^^[0m [1m[93mthe same lifetime is hidden here[0m
+
+   [1m[96m|[0m                 [1m[93m|[0m
+
+   [1m[96m|[0m                 [1m[93mthe lifetime is elided here[0m
+
+   [1m[96m|[0m
+
+   [1m[96m= [0m[1m[97mhelp[0m: the same lifetime is referred to in inconsistent ways, making the signature confusing
+
+[1m[96mhelp[0m: use `'_` for type paths
+
+   [1m[96m|[0m
+
+[1m[96m66[0m [1m[96m| [0m    pub fn lock(&self) -> MutexGuardLike<[92m'_, [0mT> {
+
+   [1m[96m|[0m                                          [92m+++[0m
+
+
+
+[1m[96m    Building[0m [======================>  ] 318/339: tauri-b…[1m[96m    Building[0m [======================>  ] 319/339: tauri-b…                                                            [1m[92m   Compiling[0m tauri-macros v1.4.1
+
+[1m[96m    Building[0m [======================>  ] 320/339: tauri-b…[1m[96m    Building[0m [======================>  ] 321/339: tauri-b…                                                            [1m[92m   Compiling[0m desktop-postflop v0.2.7 (C:\Users\Tony\GenericAgent\temp\desktop-postflop\src-tauri)
+
+[1m[96m    Building[0m [======================>  ] 322/339: desktop…[1m[96m    Building[0m [======================>  ] 323/339: desktop…[1m[96m    Building[0m [======================>  ] 324/339: tauri-m…[1m[96m    Building[0m [======================>  ] 325/339: desktop…[1m[96m    Building[0m [=======================> ] 326/339: postflo…                                                            [1m[93mwarning[0m: `postflop-solver` (lib) generated 6 warnings (run `cargo fix --lib -p postflop-solver` to apply 6 suggestions)
+
+[1m[96m    Building[0m [=======================> ] 327/339: windows…                                                            [1m[92m   Compiling[0m rfd v0.10.0
+
+[1m[96m    Building[0m [=======================> ] 327/339: rfd, wi…[1m[96m    Building[0m [=======================> ] 328/339: windows…[1m[96m    Building[0m [=======================> ] 329/339: windows                                                             [1m[92m   Compiling[0m tao v0.16.3
+
+[1m[96m    Building[0m [=======================> ] 329/339: tao, ta…                                                            [1m[92m   Compiling[0m webview2-com v0.19.1
+
+[1m[96m    Building[0m [=======================> ] 329/339: webview…[1m[96m    Building[0m [=======================> ] 330/339: webview…[1m[96m    Building[0m [=======================> ] 331/339: webview…                                                            [1m[92m   Compiling[0m wry v0.24.4
+
+[1m[92m   Compiling[0m tauri-runtime v0.14.1
+
+[1m[96m    Building[0m [=======================> ] 331/339: webview…[1m[96m    Building[0m [=======================> ] 332/339: webview…                                                            [1m[92m   Compiling[0m tauri-runtime-wry v0.14.1
+
+[1m[96m    Building[0m [=======================> ] 332/339: tauri-r…[1m[96m    Building[0m [=======================> ] 333/339: tauri-r…[1m[96m    Building[0m [=======================> ] 334/339: tauri-r…[1m[96m    Building[0m [=======================> ] 335/339: tauri-r…[1m[96m    Building[0m [=======================> ] 336/339: tauri-r…[1m[96m    Building[0m [=======================> ] 337/339: tauri   [1m[96m    Building[0m [=======================> ] 338/339: desktop…                                                            [1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 50.00s
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme

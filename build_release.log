@@ -1,0 +1,90 @@
+   Compiling tauri v1.5.0
+   Compiling tauri-macros v1.4.1
+   Compiling desktop-postflop v0.2.7 (C:\Users\Tony\GenericAgent\temp\desktop-postflop\src-tauri)
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> C:\Users\Tony\Projects\postflop-solver\src\game\base.rs:24:13
+   |
+24 |     fn root(&self) -> MutexGuardLike<Self::Node> {
+   |             ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |             |
+   |             the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+   = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+   |
+24 |     fn root(&self) -> MutexGuardLike<'_, Self::Node> {
+   |                                      +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+    --> C:\Users\Tony\Projects\postflop-solver\src\game\interpreter.rs:1091:13
+     |
+1091 |     fn node(&self) -> MutexGuardLike<PostFlopNode> {
+     |             ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+     |             |
+     |             the lifetime is elided here
+     |
+     = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+     |
+1091 |     fn node(&self) -> MutexGuardLike<'_, PostFlopNode> {
+     |                                      +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> C:\Users\Tony\Projects\postflop-solver\src\game\node.rs:38:13
+   |
+38 |     fn play(&self, action: usize) -> MutexGuardLike<Self> {
+   |             ^^^^^                    ^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |             |
+   |             the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+38 |     fn play(&self, action: usize) -> MutexGuardLike<'_, Self> {
+   |                                                     +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> C:\Users\Tony\Projects\postflop-solver\src\interface.rs:13:13
+   |
+13 |     fn root(&self) -> MutexGuardLike<Self::Node>;
+   |             ^^^^^     ^^^^^^^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |             |
+   |             the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+13 |     fn root(&self) -> MutexGuardLike<'_, Self::Node>;
+   |                                      +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> C:\Users\Tony\Projects\postflop-solver\src\interface.rs:112:13
+    |
+112 |     fn play(&self, action: usize) -> MutexGuardLike<Self>;
+    |             ^^^^^                    ^^^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |             |
+    |             the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+112 |     fn play(&self, action: usize) -> MutexGuardLike<'_, Self>;
+    |                                                     +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+  --> C:\Users\Tony\Projects\postflop-solver\src\mutex_like.rs:66:17
+   |
+66 |     pub fn lock(&self) -> MutexGuardLike<T> {
+   |                 ^^^^^     ^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+   |                 |
+   |                 the lifetime is elided here
+   |
+   = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+   |
+66 |     pub fn lock(&self) -> MutexGuardLike<'_, T> {
+   |                                          +++
+
+warning: `postflop-solver` (lib) generated 6 warnings (run `cargo fix --lib -p postflop-solver` to apply 6 suggestions)
+    Finished `release` profile [optimized] target(s) in 34.78s
