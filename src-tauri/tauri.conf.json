@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Desktop Postflop",
+    "productName": "Nodelock Solver",
     "version": "0.2.7"
   },
   "tauri": {
@@ -58,7 +58,7 @@
     },
     "windows": [
       {
-        "title": "Desktop Postflop",
+        "title": "Nodelock Solver",
         "width": 1350,
         "height": 810,
         "minWidth": 1080,
