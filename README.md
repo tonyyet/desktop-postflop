@@ -1,3 +1,49 @@
+# Desktop Postflop — **node-locking fork**
+
+> [!IMPORTANT]
+> **This repository is a fork** of [b-inary/desktop-postflop] — upstream `v0.2.7` (`0c15f97`), whose development was suspended in October 2023 — maintained by [@tonyet] on the `nodelock` branch.
+> It adds **the one feature upstream never shipped: node locking** (see [What's new in this fork](#whats-new-in-this-fork-node-locking) and [docs/NODELOCK.md](docs/NODELOCK.md)). The matching engine changes live in the fork [tonyet/postflop-solver@nodelock].
+>
+> There are **no prebuilt binaries** in this fork (the upstream *Download* link below installs upstream, i.e. **without** node locking) — build from source with the [Build](#build) section and note the fork-specific dependency step there.
+> This fork keeps the upstream license (AGPL-3.0, see [LICENSE](LICENSE)).
+>
+> Everything below the *What's new* section is the upstream README, kept unchanged so the diff stays readable.
+
+[b-inary/desktop-postflop]: https://github.com/b-inary/desktop-postflop
+[@tonyet]: https://github.com/tonyet
+[tonyet/postflop-solver@nodelock]: https://github.com/tonyet/postflop-solver/tree/nodelock
+
+---
+
+## What's new in this fork: node locking
+
+Upstream listed *"Node-locking feature"* as a roadmap item and never implemented it. This fork does, engine + UI:
+
+- **Hard lock** — fix a node's strategy to an exact per-hand frequency distribution and re-solve. The result is the optimal *restricted response* to the locked strategy.
+- **Soft lock / RRN** — a weight in `0…1` blends the node's strategy with the solved one on every iteration (`weight × target + (1 − weight) × solved`), so the residual stays optimizable instead of being forced. `weight = 1` is a hard lock, `0` is unlocked.
+- **Node frequency targets** — type a target frequency in percent per action (e.g. *check 60 % / bet 40 %*); the app distributes it over the node's hands proportionally to the current strategy.
+- **Restricted vs. real metrics** — the convergence metric *inside* the locks (which still converges to ~0, so upstream's stopping criterion is preserved) is displayed next to the **real exploitability** of the profile you are looking at. The latter is ≥ 0 by construction: locking equilibrium frequencies changes the equilibrium (measured example: restricted `≈ 7.8e-5` vs unrestricted `≈ 1.52` chips).
+- **Sensitivity sweep** — re-solves one parameter over 2–21 points in one click: soft-lock **weight** (`0 → 1` by default) of the selected node, or one action's **node frequency** (`0 → 100 %`). Each point reports restricted/real exploitability, EV OOP/IP (reach-weighted) and elapsed time, with break-even interpolation between points. Cancellable; runtime = points × solve time.
+- Terminal and chance nodes are rejected with a readable message, and all lock commands save/restore your position in the tree.
+
+### How to use it
+
+1. **Solve a spot normally.** That run becomes the **baseline** (its metrics are cached).
+2. Go to **Results** and walk the tree to the (villain) node you want to fix.
+3. In the **Node Lock** panel at the bottom of the Results view:
+   - tick **Enable node locking**,
+   - edit the per-hand frequency grid (the *Lock* column), or use the quick actions **lock to current strategy**, **lock to pure strategy** and **remove an action** (0 %),
+   - optionally set a **node frequency target (%)** per action,
+   - optionally drag the **weight** slider to turn the lock into a soft lock.
+4. Press **Apply locks & re-solve**. The whole pipeline is replayed (`init → allocate_memory → apply pending locks → solve → finalize`) because the engine only accepts locks after memory allocation and before the first solve step; the tree is rebuilt from the saved config and the pending locks are replayed on the fresh instance.
+5. Compare **Locked vs. baseline** (restricted & real exploitability, root EV), and run a **sensitivity sweep** if you want to see how the solution reacts to one parameter.
+
+Notes: the panel only renders once a solve result exists; locks are not serialized with the game (re-apply them after loading a saved game).
+
+Full details — the added Tauri commands, frontend architecture, stopping criterion, verification checklist and known limitations — are in [docs/NODELOCK.md](docs/NODELOCK.md) (engine-side notes: [postflop-solver/docs/NODELOCK.md](https://github.com/tonyet/postflop-solver/blob/nodelock/docs/NODELOCK.md)).
+
+---
+
 # Desktop Postflop
 
 > [!IMPORTANT]
@@ -51,6 +97,8 @@ See the [WASM Postflop repository] for more detailed comparisons, including some
 
 ## Download
 
+> **Fork:** no binaries are published from this fork. The [GitHub releases page] below is the upstream one — it does **not** contain node locking. Build from source instead (see [Build](#build)).
+
 You can download the app from the [GitHub releases page].
 
 [GitHub releases page]: https://github.com/b-inary/desktop-postflop/releases
@@ -76,6 +124,14 @@ C:\Users\<username>\AppData\Local\b-inary.desktop-postflop
 ## Build
 
 [Rust] and [Node.js] need to be installed to build.
+
+**Fork note (build):** `src-tauri/Cargo.toml` in this branch points at the engine fork **by local path** (`postflop-solver = { path = ... }`). On a fresh clone, replace that line with the engine fork, which is where node locking actually lives:
+
+```toml
+postflop-solver = { git = "https://github.com/tonyet/postflop-solver", branch = "nodelock", features = ["custom-alloc"] }
+```
+
+Nightly Rust is required for `custom-alloc` (the engine uses `#![feature(allocator_api)]`), and both forks must be on their `nodelock` branch for the Node Lock panel to exist.
 On Linux, you will also need to install some dependencies; please see the [Tauri documentation] for details.
 For better performance, we also recommend installing the Rust nightly channel:
 
@@ -110,7 +166,7 @@ If you want to use stable Rust instead of nightly Rust, please modify the follow
 
 - Results saving/loading feature ([#8](https://github.com/b-inary/desktop-postflop/issues/8))
 - Hand filter feature for the result viewer ([#6](https://github.com/b-inary/desktop-postflop/issues/6))
-- Node-locking feature
+- ~~Node-locking feature~~ — **implemented in this fork** (see *What's new in this fork* above)
 - Short deck support
 - Aggregated reporting feature for multiple flops
 - GTO training mode ([#9](https://github.com/b-inary/desktop-postflop/issues/9))
